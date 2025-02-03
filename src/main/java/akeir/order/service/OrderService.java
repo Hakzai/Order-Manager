@@ -1,9 +1,11 @@
 package akeir.order.service;
 
 import akeir.order.model.Order;
+import akeir.order.model.Product;
 import akeir.order.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,18 +20,33 @@ public class OrderService {
 
     public Order createOrder(Order order) 
     {
-        double total = calculateTotal(order.getItems());
-        order.setTotal(total);
+        order.setTotal(calculateTotal(order.getItems()));
+        order.setDeliveryRequiredDate(calculateDeliveryDate(order.getRegisterDate()));
         return orderRepository.save(order);
     }
 
-    public List<Order> getAllOrders() 
+	public List<Order> getAllOrders() 
     {
         return orderRepository.findAll();
     }
 
-    private double calculateTotal(List<String> items) 
+    private double calculateTotal(List<Product> items) 
     {
-        return items.size() * 10.0;  //TODO: Make a basic pricing logic
+        double total = 0.00;
+    	
+    	for(Product product : items)
+        {
+        	System.out.println(product.toString());
+    		total += product.getUnitPrice() * product.getOrderedQuantity();
+        }
+    	
+    	System.out.println("TOTAL " + total);
+    	return total;
+    }
+
+    private LocalDateTime calculateDeliveryDate(LocalDateTime registerDate) 
+    {
+    	System.out.println("DATE " + registerDate);
+    	return registerDate.plusDays(7);
     }
 }

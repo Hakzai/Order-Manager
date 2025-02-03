@@ -1,12 +1,16 @@
 package akeir.order.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.ElementCollection;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -21,11 +25,16 @@ public class Order {
 	
 	private String customerName;
 	
-	@ElementCollection
-	private List<String> items;
+	@OneToMany(mappedBy = "orderReference", cascade = CascadeType.ALL)
+	private List<Product> items;
 	
 	private double total;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	private LocalDateTime registerDate;
+	
+	private LocalDateTime deliveryRequiredDate;
+	
 	public Long getId() 
 	{
 		return id;
@@ -46,12 +55,12 @@ public class Order {
 		this.customerName = customerName;
 	}
 
-	public List<String> getItems() 
+	public List<Product> getItems() 
 	{
 		return items;
 	}
 
-	public void setItems(List<String> items) 
+	public void setItems(List<Product> items) 
 	{
 		this.items = items;
 	}
@@ -64,5 +73,25 @@ public class Order {
 	public void setTotal(double total) 
 	{
 		this.total = total;
+	}
+	
+	public LocalDateTime getRegisterDate()
+	{
+		return registerDate;
+	}
+	
+	public void setRegisterDate(LocalDateTime registerDate)
+	{
+		this.registerDate = registerDate;
+	}
+	
+	public LocalDateTime getDeliveryRequiredDate()
+	{
+		return deliveryRequiredDate;
+	}
+	
+	public void setDeliveryRequiredDate(LocalDateTime deliveryRequiredDate)
+	{
+		this.deliveryRequiredDate = deliveryRequiredDate;
 	}
 }

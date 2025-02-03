@@ -29,13 +29,14 @@ public class OrderController {
     @GetMapping
     public String testEndpoint() 
     {
-        return "Order service is running!";
+        return "Test Order Service :: Order service is running!";
     }
     
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) 
     {
-        Order savedOrder = orderService.createOrder(order);
+//        List<Product> products = new ProductService().;
+    	Order savedOrder = orderService.createOrder(order);
         return ResponseEntity.ok(savedOrder);
     }
 
