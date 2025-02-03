@@ -2,6 +2,7 @@ package akeir.order.controller;
 
 import akeir.order.model.Order;
 import akeir.order.service.OrderService;
+import akeir.order.service.ProductService;
 import jakarta.annotation.PostConstruct;
 
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,13 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) 
     {
-//        List<Product> products = new ProductService().;
-    	Order savedOrder = orderService.createOrder(order);
+        ProductService prdSrvInstance = ProductService.getInst();
+        prdSrvInstance.saveProducts(order);
+    	
+        Order savedOrder = orderService.createOrder(order);
+        prdSrvInstance.setOrderRefIds(savedOrder);
+        prdSrvInstance.saveProducts(savedOrder);
+
         return ResponseEntity.ok(savedOrder);
     }
 

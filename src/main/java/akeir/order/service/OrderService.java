@@ -46,7 +46,6 @@ public class OrderService {
 
     private LocalDateTime calculateDeliveryDate(LocalDateTime registerDate) 
     {
-    	System.out.println("DATE " + registerDate);
     	return registerDate.plusDays(7);
     }
 }
