@@ -1,4 +1,4 @@
-package akeir.discontinued.order.config;
+package akeir.order.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
@@ -8,13 +8,13 @@ import org.springframework.context.annotation.Configuration;
 public class KafkaTopicConfig {
 
 	@Bean
-	public NewTopic newOrdersTopic() 
+	NewTopic newOrdersTopic() 
 	{
 		return new NewTopic("new-orders", 3, (short) 1); // 3 partitions
 	}
 	
 	@Bean
-	public NewTopic processedOrdersTopic()
+	NewTopic processedOrdersTopic()
 	{
 		return new NewTopic("processed-orders", 3, (short) 1);
 	}

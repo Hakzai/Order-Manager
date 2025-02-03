@@ -23,7 +23,6 @@ public class OrderService {
     {
         order.setTotal(calculateTotal(order.getItems()));
         order.setDeliveryRequiredDate(calculateDeliveryDate(order.getRegisterDate()));
-        order.setOrderReady(true);
         return orderRepository.save(order);
     }
 
@@ -32,11 +31,6 @@ public class OrderService {
         return orderRepository.findAll();
     }
 	
-	public List<Order> getAllReadyOrders()
-	{
-		return orderRepository.findByIsOrderReady(true);
-	}
-
     private double calculateTotal(List<Product> items) 
     {
         double total = 0.00;

@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -34,13 +36,10 @@ public class Order {
 
 	@Column(nullable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private LocalDateTime registerDate;
-	
+
 	private LocalDateTime deliveryRequiredDate;
-	
-	private boolean isOrderReady;
-	
-	private boolean isOrderCheckedOut;
 	
 	public Long getId() 
 	{
@@ -100,25 +99,5 @@ public class Order {
 	public void setDeliveryRequiredDate(LocalDateTime deliveryRequiredDate)
 	{
 		this.deliveryRequiredDate = deliveryRequiredDate;
-	}
-
-	public boolean isOrderReady() 
-	{
-		return isOrderReady;
-	}
-
-	public void setOrderReady(boolean isOrderReady) 
-	{
-		this.isOrderReady = isOrderReady;
-	}
-
-	public boolean isOrderCheckedOut() 
-	{
-		return isOrderCheckedOut;
-	}
-
-	public void setOrderCheckedOut(boolean isOrderCheckedOut) 
-	{
-		this.isOrderCheckedOut = isOrderCheckedOut;
 	}
 }

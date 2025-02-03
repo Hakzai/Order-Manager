@@ -1,8 +1,8 @@
 package akeir.order.controller;
 
+import akeir.order.kafka.OrderProducer;
 import akeir.order.model.Order;
-import akeir.order.service.OrderService;
-import akeir.order.service.ProductService;
+import akeir.order.repository.OrderRepository;
 import jakarta.annotation.PostConstruct;
 
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,19 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class OrderController {
 
-    private final OrderService orderService;
-    
-    public OrderController(OrderService orderService) 
-    {
-        this.orderService = orderService;
-    }
+	private final OrderProducer orderProducer;
+//	private final OrderRepository orderRepository;
+//    
+//    public OrderController(OrderProducer orderProducer, OrderRepository orderRepository) 
+//    {
+//        this.orderProducer = orderProducer;
+//        this.orderRepository = orderRepository;
+//    }
+	
+	public OrderController(OrderProducer orderProducer)
+	{
+		this.orderProducer = orderProducer;
+	}
     
     @PostConstruct
     public void init() 
@@ -36,25 +43,14 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) 
     {
-        ProductService prdSrvInstance = ProductService.getInst();
-        prdSrvInstance.saveProducts(order);
+    	orderProducer.sendOrder(order);
     	
-        Order savedOrder = orderService.createOrder(order);
-        prdSrvInstance.setOrderRefIds(savedOrder);
-        prdSrvInstance.saveProducts(savedOrder);
-
-        return ResponseEntity.ok(savedOrder);
+    	return ResponseEntity.ok(order);
     }
 
     @GetMapping("/list")
     public ResponseEntity<List<Order>> getAllOrders() 
     {
-        return ResponseEntity.ok(orderService.getAllOrders());
-    }
-    
-    @GetMapping("/list/ready")
-    public ResponseEntity<List<Order>> getAllReadyOrders()
-    {
-    	return ResponseEntity.ok(orderService.getAllReadyOrders());
+        return null; //ResponseEntity.ok(orderRepository.findAll());
     }
 }

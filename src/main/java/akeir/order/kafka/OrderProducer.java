@@ -1,4 +1,4 @@
-package akeir.discontinued.order.kafka;
+package akeir.order.kafka;
 
 import akeir.order.model.Order;
 import org.springframework.kafka.core.KafkaTemplate;
