@@ -5,14 +5,12 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -39,6 +37,10 @@ public class Order {
 	private LocalDateTime registerDate;
 	
 	private LocalDateTime deliveryRequiredDate;
+	
+	private boolean isOrderReady;
+	
+	private boolean isOrderCheckedOut;
 	
 	public Long getId() 
 	{
@@ -98,5 +100,25 @@ public class Order {
 	public void setDeliveryRequiredDate(LocalDateTime deliveryRequiredDate)
 	{
 		this.deliveryRequiredDate = deliveryRequiredDate;
+	}
+
+	public boolean isOrderReady() 
+	{
+		return isOrderReady;
+	}
+
+	public void setOrderReady(boolean isOrderReady) 
+	{
+		this.isOrderReady = isOrderReady;
+	}
+
+	public boolean isOrderCheckedOut() 
+	{
+		return isOrderCheckedOut;
+	}
+
+	public void setOrderCheckedOut(boolean isOrderCheckedOut) 
+	{
+		this.isOrderCheckedOut = isOrderCheckedOut;
 	}
 }

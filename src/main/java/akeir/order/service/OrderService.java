@@ -3,6 +3,7 @@ package akeir.order.service;
 import akeir.order.model.Order;
 import akeir.order.model.Product;
 import akeir.order.repository.OrderRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class OrderService {
     {
         order.setTotal(calculateTotal(order.getItems()));
         order.setDeliveryRequiredDate(calculateDeliveryDate(order.getRegisterDate()));
+        order.setOrderReady(true);
         return orderRepository.save(order);
     }
 
@@ -29,6 +31,11 @@ public class OrderService {
     {
         return orderRepository.findAll();
     }
+	
+	public List<Order> getAllReadyOrders()
+	{
+		return orderRepository.findByIsOrderReady(true);
+	}
 
     private double calculateTotal(List<Product> items) 
     {

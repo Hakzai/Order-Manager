@@ -51,4 +51,10 @@ public class OrderController {
     {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
+    
+    @GetMapping("/list/ready")
+    public ResponseEntity<List<Order>> getAllReadyOrders()
+    {
+    	return ResponseEntity.ok(orderService.getAllReadyOrders());
+    }
 }
