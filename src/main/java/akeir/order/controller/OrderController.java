@@ -1,8 +1,7 @@
 package akeir.order.controller;
 
-import akeir.order.kafka.OrderProducer;
 import akeir.order.model.Order;
-import akeir.order.repository.OrderRepository;
+import akeir.order.service.OrderService;
 import jakarta.annotation.PostConstruct;
 
 import org.springframework.http.ResponseEntity;
@@ -14,20 +13,13 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class OrderController {
 
-	private final OrderProducer orderProducer;
-//	private final OrderRepository orderRepository;
-//    
-//    public OrderController(OrderProducer orderProducer, OrderRepository orderRepository) 
-//    {
-//        this.orderProducer = orderProducer;
-//        this.orderRepository = orderRepository;
-//    }
-	
-	public OrderController(OrderProducer orderProducer)
-	{
-		this.orderProducer = orderProducer;
-	}
+	private final OrderService orderService;
     
+    public OrderController(OrderService orderService) 
+    {
+        this.orderService = orderService;
+    }
+	
     @PostConstruct
     public void init() 
     {
@@ -43,7 +35,10 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) 
     {
-    	orderProducer.sendOrder(order);
+        orderService.createProducts(order);
+        orderService.createOrder(order);
+        orderService.updateProductsRefIds(order);
+    	orderService.sendOrder(order);
     	
     	return ResponseEntity.ok(order);
     }
@@ -51,6 +46,8 @@ public class OrderController {
     @GetMapping("/list")
     public ResponseEntity<List<Order>> getAllOrders() 
     {
-        return null; //ResponseEntity.ok(orderRepository.findAll());
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
+    
+
 }

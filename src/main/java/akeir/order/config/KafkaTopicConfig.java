@@ -10,12 +10,6 @@ public class KafkaTopicConfig {
 	@Bean
 	NewTopic newOrdersTopic() 
 	{
-		return new NewTopic("new-orders", 3, (short) 1); // 3 partitions
-	}
-	
-	@Bean
-	NewTopic processedOrdersTopic()
-	{
-		return new NewTopic("processed-orders", 3, (short) 1);
+		return new NewTopic("new-orders", 3, (short) 1); // 3 partitions - a small size, but can be changed along when needed 
 	}
 }

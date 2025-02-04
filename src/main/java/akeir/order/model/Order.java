@@ -100,4 +100,9 @@ public class Order {
 	{
 		this.deliveryRequiredDate = deliveryRequiredDate;
 	}
+	
+	public String toString()
+	{
+		return "Order__" + this.id + "__" + this.customerName + "__" + this.getRegisterDate();
+	}
 }
