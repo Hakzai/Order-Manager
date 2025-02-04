@@ -4,6 +4,7 @@ import akeir.order.model.Order;
 import akeir.order.model.Product;
 import akeir.order.repository.OrderRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +16,15 @@ import java.util.Random;
 public class OrderService {
 
 	private final Random random = new Random();
-	private final OrderRepository orderRepository;
-    private final KafkaTemplate<String, Order> kafkaTemplateOrder;
-
-    public OrderService(OrderRepository orderRepository, KafkaTemplate<String, Order> kafkaTemplateOrder) 
-    {
-        this.orderRepository = orderRepository;
-        this.kafkaTemplateOrder = kafkaTemplateOrder;
-    }
+	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private OrderRepository orderRepository;
+    
+	@Autowired
+	private KafkaTemplate<String, Order> kafkaTemplateOrder;
 
     public Order createOrder(Order order) 
     {
@@ -65,12 +67,12 @@ public class OrderService {
     
     public void createProducts(Order order)
     {
-    	ProductService.getInst().saveProducts(order);
+    	productService.saveProducts(order);
     }
     
     public void updateProductsRefIds(Order order)
     {
-    	ProductService.getInst().setOrderRefIds(order);
-    	ProductService.getInst().saveProducts(order);
+    	productService.setOrderRefIds(order);
+    	productService.saveProducts(order);
     }
 }

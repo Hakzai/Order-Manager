@@ -4,6 +4,7 @@ import akeir.order.model.Order;
 import akeir.order.service.OrderService;
 import jakarta.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +14,9 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class OrderController {
 
-	private final OrderService orderService;
+	@Autowired
+	private OrderService orderService;
     
-    public OrderController(OrderService orderService) 
-    {
-        this.orderService = orderService;
-    }
-	
     @PostConstruct
     public void init() 
     {
@@ -48,6 +45,4 @@ public class OrderController {
     {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
-    
-
 }
